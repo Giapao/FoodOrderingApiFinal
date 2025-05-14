@@ -1,0 +1,101 @@
+    @FoodOrderingApi_HostAddress = http://localhost:5182
+
+GET {{FoodOrderingApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
+
+@baseUrl = https://localhost:7001
+@token = your_jwt_token_here
+
+### Get Cart
+GET {{baseUrl}}/api/cart
+Authorization: Bearer {{token}}
+
+### Add Item to Cart
+POST {{baseUrl}}/api/cart/restaurant/1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "menuItemId": 1,
+    "quantity": 2,
+    "specialInstructions": "Không hành, không ớt"
+}
+
+### Update Cart Item
+PUT {{baseUrl}}/api/cart/items/1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "quantity": 3,
+    "specialInstructions": "Thêm ớt"
+}
+
+### Remove Item from Cart
+DELETE {{baseUrl}}/api/cart/items/1
+Authorization: Bearer {{token}}
+
+### Clear Cart
+DELETE {{baseUrl}}/api/cart
+Authorization: Bearer {{token}}
+
+### Tạo đơn hàng từ giỏ hàng
+POST {{baseUrl}}/api/orders/from-cart/1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+"Giao hàng trước 12h trưa"
+
+### Tạo đơn hàng mới
+POST {{baseUrl}}/api/orders
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "restaurantId": 1,
+    "specialInstructions": "Giao hàng trước 12h trưa",
+    "orderDetails": [
+        {
+            "productId": 1,
+            "quantity": 2,
+            "unitPrice": 50000
+        },
+        {
+            "productId": 2,
+            "quantity": 1,
+            "unitPrice": 75000
+        }
+    ]
+}
+
+### Lấy thông tin đơn hàng theo ID
+GET {{baseUrl}}/api/orders/1
+Authorization: Bearer {{token}}
+
+### Lấy danh sách đơn hàng của người dùng
+GET {{baseUrl}}/api/orders/user
+Authorization: Bearer {{token}}
+
+### Lấy danh sách đơn hàng của nhà hàng (Admin)
+GET {{baseUrl}}/api/orders/restaurant/1
+Authorization: Bearer {{token}}
+
+### Lấy danh sách đơn hàng theo trạng thái (Admin)
+GET {{baseUrl}}/api/orders/status/Pending
+Authorization: Bearer {{token}}
+
+### Cập nhật trạng thái đơn hàng (Admin)
+PUT {{baseUrl}}/api/orders/1/status
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+"Confirmed"
+
+### Hủy đơn hàng
+PUT {{baseUrl}}/api/orders/1/cancel
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+"Không còn nhu cầu mua"
